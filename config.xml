@@ -9,21 +9,7 @@
     </author>
     
 
-<plugin name="cordova-plugin-statusbar" source="npm"/>
-<plugin name="cordova-plugin-device" source="npm"/>
-<plugin name="cordova-plugin-splashscreen" source="npm"/>
-<plugin name="cordova-plugin-vibration" source="npm"/>
-<plugin name="cordova-plugin-dialogs" source="npm"/>
 
-<plugin name="cordova-plugin-camera" source="npm">
-<variable name="CAMERA_USAGE_DESCRIPTION" value=" "/>
-<variable name="PHOTOLIBRARY_USAGE_DESCRIPTION" value=" "/>
-</plugin>
-<plugin name="cordova-plugin-contacts" source="npm">
-<variable name="CONTACTS_USAGE_DESCRIPTION" value=" "/>
-</plugin>
-<plugin name="cordova-plugin-file" source="npm">
-<plugin name="cordova-plugin-file-transfer" source="npm"/>
     
     <content src="index.html" />
     <access origin="*" />
