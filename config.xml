@@ -8,7 +8,7 @@
         Saymon Possenti
     </author>
     
-<preference name="phonegap-version" value="cli-8.0.0" />
+
 <plugin name="cordova-plugin-statusbar" source="npm"/>
 <plugin name="cordova-plugin-device" source="npm"/>
 <plugin name="cordova-plugin-splashscreen" source="npm"/>
