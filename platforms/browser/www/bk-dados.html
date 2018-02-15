@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+        <title>IEQ-MOBILE</title>
+    
+	
+   <script type="text/javascript">
+        function sairdoapp()
+        {
+            navigator.app.exitApp();
+        }
+
+    </script>        
+        
+        <script language="javascript" type="text/javascript">
+
+                    function Redireciona(obj)
+            
+            {
+            
+            var src = "dados.html?letra="+obj.value;
+            
+            location.href = src;
+            
+            }  
+            
+                        var parseQueryString = function() {
+            
+                var str = window.location.search;
+                var objURL = {};
+            
+                str.replace(
+                    new RegExp( "([^?=&]+)(=([^&]*))?", "g" ),
+                    function( $0, $1, $2, $3 ){
+                        objURL[ $1 ] = $3;
+                    }
+                );
+                return objURL;
+            };
+            
+            
+            
+            var params = parseQueryString();
+            
+            
+            
+            var db = openDatabase('dados_bd', '2.0', 'AGENDA IEQ', 2000);
+			         var msg;
+						
+			         db.transaction(function (tx) {
+			            tx.executeSql('CREATE TABLE IF NOT EXISTS AGENDA (ID integer primary key autoincrement, NOME TEXT, SOBRENOME TEXT, NOMECOMP TEXT, LETRA TEXT, F1 TEXT,F2 TEXT,F3 TEXT, ROL INTEGER, DD INTEGER, MM INTEGER, AA INTEGER, DATAMEMB TEXT, FOTO TEXT, DATACAD DATETIME)');
+			         });  
+
+                    db.transaction(function (tx) {
+			            tx.executeSql('CREATE TABLE IF NOT EXISTS CONFIG (ID integer primary key, DIRFOTO TEXT)');
+			         }); 
+
+
+            
+function titulo()
+{
+var v_v1="";
+v_v1+="                <div class='uib-header header-bg container-group inner-element uib_w_5' data-uib='layout/header' data-ver='0'>";
+v_v1+="                    <h2>Programa de Cadastro</h2>";
+v_v1+="                    <div class='widget-container wrapping-col single-centered'></div>";
+v_v1+="                    <div class='widget-container content-area horiz-area wrapping-col left'></div>";
+v_v1+="                    <div class='widget-container content-area horiz-area wrapping-col right'></div>";
+v_v1+="                </div>";   
+v_v1+="                    <div class='btn-group uib-bs-flex widget uib_w_6 d-margins' data-uib='twitter%20bootstrap/button_group' data-ver='1'>";
+v_v1+="                        <a href='dados.html?op=cad'>";
+v_v1+="                            <button class='btn widget uib_w_7 btn-default' data-uib='twitter%20bootstrap/button' data-ver='1' id='bt_cad'>CADASTRAR</button></a>&nbsp;";
+v_v1+="<button name='sair' onclick='sairdoapp()'>SAIR DO APP</button>";
+v_v1+="                    </div>";
+v_v1+="                    <form id='form1' runat='server' method='GET'>";
+v_v1+="                        <center>";
+v_v1+="<hr><h3><a href='dados2.html?mm=1'>ANIVERSÁRIANTES</a></h3> <hr><a href='dados3.html'>BANCO DE DADOS</a>";
+v_v1+=" - <a href='dados.html?op=discar'>DISCAR</a> - <a href='dados.html?op=config'>CONFIGURAR</a><HR>";
+v_v1+="                           SELECIONE A PRIMEIRA LETRA DO NOME: <select name='letra' onchange='Redireciona(this)' id='letra'>";
+var letras = "ABCDEFGHIJKLMNOPQRSTUYWZ";
+//v_v1+="<option>"+letras.substr(0,1)+"</option>";  
+for (x = 0; x < letras.length; x++) { 
+    if (params['letra'] === letras.substr(x,1)) {v_v1+="<option selected>"+letras.substr(x,1)+"</option>";} 
+    else {v_v1+="<option>"+letras.substr(x,1)+"</option>";}    
+}    
+v_v1+="                            </select>";
+v_v1+="                        </center>";
+v_v1+="                        <hr>";
+v_v1+="                        </form>";
+    
+    
+    
+db.transaction(function (tx) {document.querySelector('#titulo').innerHTML=v_v1;});     
+}
+
+            
+function fomulario()
+{
+var v_v1=""; var v_nome=""; var v_sobrenome=""; var v_rol="0"; var v_dd=0; var v_mm=0; var v_aa=0; 
+var v_f1=""; var v_f2=""; var v_f3=""; var x=0; var v_datamemb=""; var v_foto="";
+
+   db.transaction(function (tx) {
+   tx.executeSql('SELECT * FROM AGENDA where ID = '+params["id"], [], function (tx, results) 
+  {
+    if (params["op"] === "alt") {   
+      v_rol=results.rows.item(0).ROL;
+      v_nome=results.rows.item(0).NOME;     
+      v_sobrenome=results.rows.item(0).SOBRENOME;     
+      v_f1=results.rows.item(0).F1;
+      v_f2=results.rows.item(0).F2;
+      v_f3=results.rows.item(0).F3;
+      v_dd=results.rows.item(0).DD;
+      v_mm=results.rows.item(0).MM;
+      v_aa=results.rows.item(0).AA;
+      v_foto=results.rows.item(0).FOTO;
+      v_datamemb=results.rows.item(0).DATAMEMB;
+      document.querySelector('#titulo').innerHTML=v_rol+"-"+v_nome+" / "+v_f1+" / "+v_f2+" / "+v_f3+" Data: "+v_dd+"/"+v_mm+"/"+v_aa; 
+        
+// COLAR CÓDIGO AQUI
+//v_v1+=v_foto+"<hr>";
+v_v1+="<form action='dados.html' method='get'>";
+v_v1+="<input name='op' type='hidden' value='env_"+params["op"]+"'/><input name='id' type='hidden' value='"+params["id"]+"'/>";    
+v_v1+="      <div class='upage vertical-col left' id='mainpage'>";
+v_v1+="        <div class='widget uib_w_2 scale-image d-margins' data-uib='media/img' data-ver='0'>";
+v_v1+="          <hr>";
+v_v1+="          <table>";
+v_v1+="            <tbody>";
+v_v1+="              <tr>";
+v_v1+="                <td width='10'>&nbsp;</td>  ";
+v_v1+="                <td>";
+v_v1+="			<a class='uib-graphic-button default-graphic-sizing default-image-sizing hover-graphic-button active-graphic-button default-graphic-button default-graphic-text widget uib_w_3 d-margins media-button-text-bottom' data-uib='media/graphic_button' data-ver='0' href='#' id='tfoto'>";
+v_v1+="                     <img src='"+v_foto+"' width='129' height='97'><hr><input name='foto' type='text' value='"+v_foto+"'/><hr>";
+v_v1+="                    </a>";
+v_v1+="                </td>";
+v_v1+="                <td width='10'>&nbsp;</td>";
+v_v1+="                <td>";
+v_v1+="                  <div class='table-thing widget uib_w_10 d-margins' data-uib='twitter%20bootstrap/input' data-ver='1'>";
+v_v1+="                    <b>Rol de Membros</b>";
+v_v1+="                    <br>";
+v_v1+="                    <input class='wide-control form-control default' type='tel' name='rol' id='rol' value='"+v_rol+"'>";
+v_v1+="                  </div>";
+v_v1+="                </td>";
+v_v1+="              </tr>";
+v_v1+="            </tbody>";
+v_v1+="          </table>";
+v_v1+="        </div>";
+v_v1+="<div class='table-thing widget uib_w_4 d-margins' data-uib='twitter%20bootstrap/input' data-ver='1'>";
+v_v1+="<label class='narrow-control label-inline' for='nome'>Nome</label>";
+v_v1+="<input class='wide-control form-control default' type='text' name='nome' id='nome' width='80' value='"+v_nome+"'></div>";
+v_v1+="<div class='table-thing widget uib_w_5 d-margins' data-uib='twitter%20bootstrap/input' data-ver='1'>";
+v_v1+="<label class='narrow-control label-inline' for='sobrenome'>Sobrenome</label>";
+v_v1+="<input class='wide-control form-control default' type='text' name='sobrenome' id='sobrenome' width='80' value='"+v_sobrenome+"'></div>";
+v_v1+="<div class='table-thing widget uib_w_6 d-margins' data-uib='twitter%20bootstrap/input' data-ver='1'>";
+v_v1+="<label class='narrow-control label-inline' for='f1'>Fone 01</label>";
+v_v1+="<input class='wide-control form-control default' type='tel' name='f1' id='f1' width='80' value='"+v_f1+"'></div>";
+v_v1+="<div class='table-thing widget uib_w_7 d-margins' data-uib='twitter%20bootstrap/input' data-ver='1'>";
+v_v1+="<label class='narrow-control label-inline' for='f2'>Fone 02</label>";
+v_v1+="<input class='wide-control form-control default' type='tel' name='f2' id='f2' width='80' value='"+v_f2+"'></div>";
+v_v1+="<div class='table-thing widget uib_w_8 d-margins' data-uib='twitter%20bootstrap/input' data-ver='1'>";
+v_v1+="<label class='narrow-control label-inline' for='f3'>Fone 03</label>";
+v_v1+="<input class='wide-control form-control default' type='tel' name='f3' id='f3' width='80' value='"+v_f3+"'></div>";
+v_v1+="        <div class='table-thing widget uib_w_9 d-margins' data-uib='twitter%20bootstrap/select' data-ver='1'>";
+v_v1+="          <b>Data de Nasc.</b>";
+v_v1+="          <select name='dd' id='dd' value='"+params["dd"]+"'>";
+x=0; while (x < 9) { x++; if (x == v_dd) {v_v1+="<option SELECTED>0"+x+"</option>";} else {v_v1+="<option>0"+x+"</option>";} }
+x=9; while (x < 31) { x++; if (x == v_dd) {v_v1+="<option SELECTED>"+x+"</option>";} else {v_v1+="<option>"+x+"</option>";} }    
+v_v1+="          </select>&nbsp;/&nbsp;";
+v_v1+="          <select name='mm' id='mm' value='"+params["mm"]+"'>";
+x=0; while (x < 9) { x++; if (x == v_mm) {v_v1+="<option SELECTED>0"+x+"</option>";} else {v_v1+="<option>0"+x+"</option>";} }
+x=9; while (x < 12) { x++; if (x == v_mm) {v_v1+="<option SELECTED>"+x+"</option>";} else {v_v1+="<option>"+x+"</option>";} }    
+v_v1+="          </select>&nbsp;/&nbsp;";
+v_v1+="          <select name='aa' id='aa' value='"+params["aa"]+"'>";
+var ano=new Date().getFullYear()+1; x=101; while (x > 0) 
+{ x--; ano--; if (v_aa == ano) {v_v1+="<option SELECTED>"+ano+"</option>";} else {v_v1+="<option>"+ano+"</option>";} }
+v_v1+="          </select>";
+v_v1+="        </div>";
+v_v1+="<div class='table-thing widget uib_w_8 d-margins' data-uib='twitter%20bootstrap/input' data-ver='1'>";
+v_v1+="<label class='narrow-control label-inline' for='datamemb'>Membro desde</label>";
+v_v1+="<input class='wide-control form-control default' type='text' name='datamemb' id='datamemb' width='80' value='"+v_datamemb+"'></div>";
+//v_v1+="<hr><button type='submit'>ENVIAR</button>";
+v_v1+="</div>"; 
+v_v1+="</form>"; 
+v_v1+="<hr><CENTER><button name='bt_altera' onclick='alterar()'>ALTERAR DADOS</button>&nbsp;&nbsp;&nbsp;<a href=dados.html?op=exc&id="+params["id"]+">APAGAR</A>&nbsp;&nbsp;&nbsp;<a href='dados.html'>VOLTAR</a></CENTER><HR><BR><BR>&nbsp;";        
+        
+
+document.querySelector('#titulo').innerHTML=v_v1;         
+}
+       
+   }
+    , null);
+       //document.querySelector('#titulo').innerHTML+=v_v1;
+       //v_v1="";
+       
+       
+    });             
+    
+    //v_nome=params["nome"]; v_sobrenome=params["sobrenome"]; v_f1=params["f1"]; v_f2=params["f2"]; v_f3=params["f3"]; v_rol=params["rol"];
+     //}                   
+if (params["op"] === "cad") { 
+v_v1+="    <form action='dados.html' method='get'>";
+
+var v_foto="";
+if (typeof params["foto"] === "undefined") {v_foto="<img src='images/sfoto.png' width='129' height='97'><input name='foto' type='hidden' value='images/sfoto.png'/>"; v_v1+="<input name='op' type='hidden' value='env_cad'/>";} else {v_foto="<img src='"+params["foto"]+"' width='129' height='97'><input name='foto' type='text' value='"+params["foto"]+"'/>"; v_v1+="<input name='op' type='hidden' value='env_alt'/>";}   
+//v_v1+="<hr><center>"+v_foto+"</center><hr>";    
+
+v_v1+="<input name='id' type='hidden' value='"+params["id"]+"'/>";    
+v_v1+="      <div class='upage vertical-col left' id='mainpage'>";
+v_v1+="        <div class='widget uib_w_2 scale-image d-margins' data-uib='media/img' data-ver='0'>";
+v_v1+="          <hr>";
+v_v1+="          <table>";
+v_v1+="            <tbody>";
+v_v1+="              <tr>";
+v_v1+="                <td width='10'>&nbsp;</td>  ";
+v_v1+="                <td>";
+
+v_v1+="			<a class='uib-graphic-button default-graphic-sizing default-image-sizing hover-graphic-button active-graphic-button default-graphic-button default-graphic-text widget uib_w_3 d-margins media-button-text-bottom' data-uib='media/graphic_button' data-ver='0' href='#' id='tfoto'>";
+v_v1+="				<DIV id='foto' name='foto'>"+v_foto+"</div>";
+//v_v1+="				<span class='uib-caption'>Tirar Foto</span>";
+v_v1+="			</a>";
+v_v1+="                </td>";
+v_v1+="                <td width='10'>&nbsp;</td>";
+v_v1+="                <td>";
+v_v1+="                  <div class='table-thing widget uib_w_10 d-margins' data-uib='twitter%20bootstrap/input' data-ver='1'>";
+v_v1+="                    <b>Rol de Membros</b>";
+v_v1+="                    <br>";
+v_v1+="                    <input class='wide-control form-control default' type='tel' name='rol' id='rol' value='"+v_rol+"'>";
+v_v1+="                  </div>";
+v_v1+="                </td>";
+v_v1+="              </tr>";
+v_v1+="            </tbody>";
+v_v1+="          </table>";
+v_v1+="        </div>";
+v_v1+="        <div class='table-thing widget uib_w_3 d-margins' data-uib='twitter%20bootstrap/input' data-ver='1'>";
+v_v1+="          <label class='narrow-control label-inline' for='nome'>Nome</label>";
+v_v1+="          <input class='wide-control form-control default' type='text' name='nome' id='nome' width='80' value='"+v_nome+"'>";
+v_v1+="        </div>";
+v_v1+="        <div class='table-thing widget uib_w_4 d-margins' data-uib='twitter%20bootstrap/input' data-ver='1'>";
+v_v1+="          <label class='narrow-control label-inline' for='sobrenome'>Sobrenome</label>";
+v_v1+="          <input class='wide-control form-control default' type='text' name='sobrenome' id='sobrenome' value='"+v_sobrenome+"'>";
+v_v1+="        </div>";
+v_v1+="        <div class='table-thing widget uib_w_5 d-margins' data-uib='twitter%20bootstrap/input' data-ver='1'>";
+v_v1+="          <label class='narrow-control label-inline' for='f1'>Fone 01</label>";
+v_v1+="          <input class='wide-control form-control default' type='tel' name='f1' id='f1' value='"+v_f1+"'>";
+v_v1+="        </div>";
+v_v1+="        <div class='table-thing widget uib_w_6 d-margins' data-uib='twitter%20bootstrap/input' data-ver='1'>";
+v_v1+="          <label class='narrow-control label-inline'>Fone 02</label>";
+v_v1+="          <input class='wide-control form-control default' type='tel' name='f2' id='f2' value='"+v_f2+"'>";
+v_v1+="        </div>";
+v_v1+="        <div class='table-thing widget uib_w_7 d-margins' data-uib='twitter%20bootstrap/input' data-ver='1'>";
+v_v1+="          <label class='narrow-control label-inline'>Fone 03</label>";
+v_v1+="          <input class='wide-control form-control default' type='tel' name='f3' id='f3' value='"+v_f3+"'>";
+v_v1+="        </div>";
+v_v1+="        <div class='table-thing widget uib_w_8 d-margins' data-uib='twitter%20bootstrap/select' data-ver='1'>";
+v_v1+="          <b>Data de Nasc.</b>";
+v_v1+="          <select name='dd' id='dd' value='"+params["dd"]+"'>";
+x=0; while (x < 9) { x++; if (x == v_dd) {v_v1+="<option SELECTED>0"+x+"</option>";} else {v_v1+="<option>0"+x+"</option>";} }
+x=9; while (x < 31) { x++; if (x == v_dd) {v_v1+="<option SELECTED>"+x+"</option>";} else {v_v1+="<option>"+x+"</option>";} }    
+v_v1+="          </select>&nbsp;/&nbsp;";
+v_v1+="          <select name='mm' id='mm' value='"+params["mm"]+"'>";
+x=0; while (x < 9) { x++; if (x == v_mm) {v_v1+="<option SELECTED>0"+x+"</option>";} else {v_v1+="<option>0"+x+"</option>";} }
+x=9; while (x < 12) { x++; if (x == v_mm) {v_v1+="<option SELECTED>"+x+"</option>";} else {v_v1+="<option>"+x+"</option>";} }    
+v_v1+="          </select>&nbsp;/&nbsp;";
+v_v1+="          <select name='aa' id='aa' value='"+params["aa"]+"'>";
+var ano=new Date().getFullYear()+1; x=101; while (x > 0) 
+{ x--; ano--; if (v_aa == ano) {v_v1+="<option SELECTED>"+ano+"</option>";} else {v_v1+="<option>"+ano+"</option>";} }
+v_v1+="          </select>";
+v_v1+="        </div>";
+//v_v1+="        <div class='table-thing widget uib_w_8 d-margins' data-uib='twitter%20bootstrap/input' data-ver='1'>";
+//v_v1+="          <label class='narrow-control label-inline' for='datamemb'>Membro desde</label>";
+//v_v1+="          <input class='wide-control form-control default' type='text' id='datamemb' value='"+params["datamemb"]+"'>";
+//v_v1+="        </div>";
+v_v1+="<div class='table-thing widget uib_w_8 d-margins' data-uib='twitter%20bootstrap/input' data-ver='1'>";
+v_v1+="<label class='narrow-control label-inline' for='datamemb'>Membro desde</label>";
+v_v1+="<input class='wide-control form-control default' type='text' name='datamemb' id='datamemb' width='80' value='"+v_datamemb+"'></div>";
+v_v1+="      </div>";
+v_v1+="    </form>";
+v_v1+="<hr><CENTER><button name='bt_cadastra' onclick='cadastrar()'>CADASTRAR DADOS</button>&nbsp;&nbsp;&nbsp;<a href='dados.html'>VOLTAR</a></CENTER><HR><BR><BR>&nbsp;";        
+    
+db.transaction(function (tx) {document.querySelector('#status').innerHTML+=v_v1;}); 
+}
+    
+}
+
+if (params["op"] == "vfoto")            
+{  
+    db.transaction(function (tx) {
+ 
+    tx.executeSql('SELECT * FROM AGENDA WHERE ID = '+params["id"], [], function (tx, results) {
+    var v_v1="<hr><center><A HREF='dados.html'><img src='"+results.rows.item(0).FOTO+"'></a><br><br>"+results.rows.item(0).FOTO+"</center><hr>"; 
+    document.querySelector('#status').innerHTML+=v_v1;    
+}, null);
+});
+}
+            
+            
+if (params["op"] == "discar") {
+    $.ajax({
+           type: "get",
+           dataType  : 'html',
+           url: "",
+           data: "acao=listar",
+           success: function(data) {
+                      db.transaction(function (tx) {document.querySelector('#status').innerHTML+="<hr><font color=red>"+data+"</font>";});                                                    }
+            });
+}
+            
+            if (params["op"] === "exc") {
+            
+			         db.transaction(function (tx) {
+                        tx.executeSql('DELETE FROM AGENDA WHERE ID = '+params["id"]); 
+			            
+			            msg = '<p>REGISTRO '+params["id"]+' FOI APAGADADO !!!</p>';
+			            document.querySelector('#status').innerHTML =  msg;
+
+                         
+			         });
+            }
+
+if (params["op"] === "config") {
+
+var senha=window.prompt("DIGITE SENHA PARA CONFIGURAR: ","");
+// file:///storage/emulated/0/fotos/000001.jpg 
+if (senha == 5124) { location.href = "config.html";}
+
+
+
+
+   
+    
+}			
+
+if (params["op"] === "env_cad") {
+
+    var v_nome=params["nome"]; v_nome=v_nome.trim();
+    var letra = v_nome.substr(0, 1);  letra=letra.toUpperCase(); letra=retira_acentos(letra); 
+    
+db.transaction(function (tx) {
+    tx.executeSql('INSERT INTO AGENDA (DD,MM,AA,ROL,F1,F2,F3,NOME,SOBRENOME,NOMECOMP,FOTO,DATAMEMB) VALUES ('+params["dd"]+','+params["mm"]+','+params["aa"]+','+params["rol"]+',"'+params["f1"]+'","'+params["f2"]+'","'+params["f3"]+'","'+params["nome"]+'","'+params["sobrenome"]+'","'+params["nome"]+" "+params["sobrenome"]+'","'+params["foto"]+'","'+params["datamemb"]+'")');
+});
+    
+            }            
+
+function retira_acentos(palavra) {
+com_acento = 'áàãâäéèêëíìîïóòõôöúùûüçÁÀÃÂÄÉÈÊËÍÌÎÏÓÒÕÖÔÚÙÛÜÇ';
+sem_acento = 'aaaaaeeeeiiiiooooouuuucAAAAAEEEEIIIIOOOOOUUUUC';
+nova='';
+for(i=0;i<palavra.length;i++) {
+if (com_acento.search(palavra.substr(i,1))>=0) {
+nova+=sem_acento.substr(com_acento.search(palavra.substr(i,1)),1);
+}
+else {
+nova+=palavra.substr(i,1);
+}
+}
+return nova;
+}
+
+function cadastrar()
+{
+            var v_nome=$("#nome").val(); v_nome=v_nome.trim(); 
+            var v_sobrenome=$("#sobrenome").val(); v_sobrenome=v_sobrenome.trim();
+            var v_f1=$("#f1").val(); var v_f2=$("#f2").val(); var v_f3=$("#f3").val();
+            var v_dd=$("#dd").val(); var v_mm=$("#mm").val(); var v_aa=$("#aa").val(); 
+            var v_datamemb = $("#datamemb").val();
+            //var v_dtmemb=$("$datamemb").val(); 
+            var v_rol=$("#rol").val();
+            var letra = v_nome.substr(0, 1);  letra=letra.toUpperCase(); letra=retira_acentos(letra); 
+
+    db.transaction(function (tx) {
+    tx.executeSql('INSERT INTO AGENDA (DD,MM,AA,ROL,F1,F2,F3,NOME,SOBRENOME,NOMECOMP,FOTO,DATAMEMB) VALUES ('+v_dd+','+v_mm+','+v_aa+','+v_rol+',"'+v_f1+'","'+v_f2+'","'+v_f3+'","'+v_nome+'","'+v_sobrenome+'","'+v_nome+" "+v_sobrenome+'","images/sfoto.png","'+v_datamemb+'")');
+});
+
+    
+            alert("CADASTRO: ["+v_nome+" "+v_sobrenome+"]. REALIZADO COM SUCESSO !!!");
+            location.href = "dados.html";
+    
+}
+            
+        function alterar()
+        {
+            var v_nome=$("#nome").val(); v_nome=v_nome.trim(); 
+            var v_sobrenome=$("#sobrenome").val(); v_sobrenome=v_sobrenome.trim();
+            var v_f1=$("#f1").val(); var v_f2=$("#f2").val(); var v_f3=$("#f3").val();
+            var v_dd=$("#dd").val(); var v_mm=$("#mm").val(); var v_aa=$("#aa").val(); 
+            var v_datamemb = $("#datamemb").val();
+            //var v_dtmemb=$("$datamemb").val(); 
+            var v_rol=$("#rol").val();
+            var letra = v_nome.substr(0, 1);  letra=letra.toUpperCase(); letra=retira_acentos(letra); 
+            db.transaction(function (tx) {tx.executeSql('UPDATE AGENDA SET DD='+v_dd+',MM='+v_mm+',AA='+v_aa+',ROL='+v_rol+',F1="'+v_f1+'",F2="'+v_f2+'",F3="'+v_f3+'",NOME="'+v_nome+'",SOBRENOME="'+v_sobrenome+'",NOMECOMP="'+v_nome+" "+v_sobrenome+'",DATAMEMB="'+v_datamemb+'",LETRA="'+letra+'" WHERE ID = '+params["id"]);});
+            alert("CÓDIGO: ["+params["id"]+"] "+v_nome+" "+v_sobrenome+". ALTERADO COM SUCESSO !!!");
+            location.href = "dados.html";
+        }            
+            
+if (params["op"] === "env_alt") {
+var nome=params["nome"]; nome=nome.split("+").join(" "); 
+var sobrenome=params["sobrenome"]; sobrenome=sobrenome.split("+").join(" "); 
+var letra = nome.substr(0, 1);  letra=letra.toUpperCase();
+db.transaction(function (tx) {tx.executeSql('UPDATE AGENDA SET DD='+params["dd"]+',MM='+params["mm"]+',AA='+params["aa"]+',ROL='+params["rol"]+',F1="'+params["f1"]+'",F2="'+params["f2"]+'",F3="'+params["f3"]+'",NOME="'+nome+'",SOBRENOME="'+sobrenome+'",NOMECOMP="'+nome+" "+sobrenome+'",DATAMEMB="'+params["datamemb"]+'",LETRA="'+letra+'" WHERE ID = '+params["id"]);});
+//db.transaction(function (tx) {tx.executeSql('UPDATE AGENDA SET NOME="'+params["nome"]+'" WHERE ID = '+params["id"]);});
+    //, SOBRENOME="'+params["sobrenome"]+'"
+            }            
+            
+            
+            
+            if (params["op"] === "cad" || params["op"] === "alt") { fomulario(); }
+            else
+                {
+                     titulo(); 
+			         db.transaction(function (tx) {
+                         v_psq=params["psq"];
+                         tx.executeSql('SELECT * FROM AGENDA ORDER BY NOME', [], function (tx, results) {
+			               var len = results.rows.length, i;
+			               msg = "<p>REGISTROS ENCONTRADOS: " + len + "</p>";
+			               document.querySelector('#status').innerHTML +=  msg;
+				           				
+			               for (i = 0; i < len; i++){
+			                  msg="<table><tr><td><a href='dados.html?op=vfoto&id="+results.rows.item(i).ID+"'>";
+                              msg+="<image src='"+results.rows.item(i).FOTO+"' Width=129 Height=97></a></td>";
+                              msg+="<td>&nbsp;&nbsp;&nbsp;</td><td>";
+                              msg+="<a href='dados.html?op=alt&etapa=1&id=";
+                              msg+=results.rows.item(i).ID+"'><b>" + results.rows.item(i).ID +" - ";
+                              msg+=results.rows.item(i).NOME+" "+results.rows.item(i).SOBRENOME+"</b></a><hr>";
+			                  document.querySelector('#status').innerHTML +=  msg;
+			               }
+						   document.querySelector('#status').innerHTML +="<hr><image src='file:///storage/extSdCard/fotos/000001.jpg'>";
+						   //document.querySelector('#status').innerHTML +="<hr><image src='file:///storage/emulated/0/fotos/000001.jpg'>";
+			            }, null);
+			         });
+            }
+            
+            
+            
+            
+            
+            
+
+            //params["letra"]="B";
+            
+            //document.querySelector('#status').innerHTML +="<LI>LETRA: ";
+            
+                    $(document).ready(function () {
+                        $("#contentArea").append("<ul></ul>");
+                        $.ajax({
+                            type: "GET",
+                            url: "agenda.xml",
+                            dataType: "xml",
+                            success: function (xml) {
+                                $(xml).find('LTR_'+params["letra"]).each(function () {
+                                    var sl1 = "<h2><font color=blue>"+$(this).find('NOME').text()+" "+ $(this).find('SOBRENOME').text()+"<BR>";
+                                    sl1+="</font><h3><FONT COLOR=RED>FONES: ";
+                                    var sf1 = $(this).find('F1').text();
+                                    sf1 = "<a href='tel:"+sf1+"'>"+sf1+"</a>";
+                                    var sf2 = $(this).find('F2').text();
+                                    sf2 = "<a href='tel:"+sf2+"'>"+sf2+"</a>";
+                                    var sf3 = $(this).find('F3').text();
+                                    sf3 = "<a href='tel:"+sf3+"'>"+sf3+"</a>";
+                                    sf3=sf3+"</FONT><font color=green>";
+var v_text01 = "Data Nasc. = "+$(this).find('DD').text()+"/"+$(this).find('MM').text()+" |  ";
+v_text01+=$(this).find('ROL').text()+" - DESDE:"+$(this).find('DATAMEMB').text()+"</font></h3></h2><HR>";
+                                    $("<li></li>").html(sl1 + sf1 + " / " + sf2+ " / " + sf3+"<HR>"+v_text01).appendTo("#contentArea ul");
+            $.get(
+                "dados.html",
+                {paramOne : 1, paramX : 'abc'},
+                function(data) {
+                   //alert('page content: ' + data);
+                }
+            );
+                                });
+                            },
+                            error: function () {
+                                alert("Ocorreu um erro inesperado durante o processamento.");
+                            }
+                        });
+                    });
+                       
+           // if getCookie("ACESSO") === "OK" {activate_page("#princ");}
+        </script>
+
+    </head>
+
+<body>
+        <!-- IMPORTANT: Do not include a weinre script tag as part of your release builds! -->
+        <!-- Place your remote debugging (weinre) script URL from the Test tab here, if it does not work above -->
+        <!-- <script src="http://debug-software.intel.com/target/target-script-min.js#insertabiglongfunkynumberfromthexdkstesttab"></script> -->
+        <div class="upage" id="main">
+            <div class="upage-outer">
+                <div id="titulo"></div>
+                <div class="upage-content ac0 content-area vertical-col left" id="page_63_28">
+
+
+                    
+                    <div id="status" name="status"></div>    
+                    
+
+                        <div align="center">
+                            <fieldset style="width:90%;height:100%;">
+                                <table border="0" cellpadding="3" cellspacing="3">
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="2">
+                                                <div id="contentArea" align="left"></div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                        </div>
+                    
+
+                </div>
+
+            </div>
+
+        </div>
+	    
+        <script type="text/javascript" src="cordova.js"></script>
+    </body>
+</html>

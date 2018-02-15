@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+        <title>IEQ-MOBILE</title>
+    
+	
+         <script language="javascript" type="text/javascript">
+            
+            
+            
+            function Redireciona(obj)
+            
+            {
+            
+            var src = "dados2.html?mm="+obj.value;
+            
+            location.href = src;
+            
+            }    
+            
+            
+            var parseQueryString = function() {
+            
+                var str = window.location.search;
+                var objURL = {};
+            
+                str.replace(
+                    new RegExp( "([^?=&]+)(=([^&]*))?", "g" ),
+                    function( $0, $1, $2, $3 ){
+                        objURL[ $1 ] = $3;
+                    }
+                );
+                return objURL;
+            };
+            
+            var params = parseQueryString();
+            //params["letra"]="B";
+            
+                    $(document).ready(function () {
+                        $("#contentArea").append("<ul></ul>");
+                        $.ajax({
+                            type: "GET",
+                            url: "agenda2.xml",
+                            dataType: "xml",
+                            success: function (xml) {
+                                $(xml).find('MES_'+params["mm"]).each(function () {
+                                    var data = new Date();
+                                    var ano = data.getFullYear();
+                                    var idade = ano - parseInt( $(this).find('AA').text());
+                                    var sl0 = "<font color=green><h3>"
+                                    sl0=sl0+ $(this).find('DD').text()+"/"+$(this).find('MM').text()+"/"+$(this).find('AA').text()+" - ";
+                                    sl0=sl0+"IDADE: "+idade+"</font><br><h2><font color=blue>";
+                                    var sl1 = sl0 + $(this).find('NOME').text()+" "+$(this).find('SOBRENOME').text()+"</font></h2>"
+                                    sl1=sl1+"<BR><font color=red>FONES: ";
+                                    var sf1 = $(this).find('F1').text();
+                                    var sf2 = $(this).find('F2').text();
+                                    var sf3 = $(this).find('F3').text()+"</font></h3>";
+                                    $("<li></li>").html(sl1 +  sf1 + " / " + sf2+ " / " + sf3+"<HR>").appendTo("#contentArea ul");
+            $.get(
+                "dados2.html",
+                {paramOne : 1, paramX : 'abc'},
+                function(data) {
+                   //alert('page content: ' + data);
+                }
+            );
+                                });
+                            },
+                            error: function () {
+                                alert("Ocorreu um erro inesperado durante o processamento.");
+                            }
+                        });
+                    });
+           // if getCookie("ACESSO") === "OK" {activate_page("#princ");}
+        </script>
+
+    </head>
+
+    <body>
+        <!-- IMPORTANT: Do not include a weinre script tag as part of your release builds! -->
+        <!-- Place your remote debugging (weinre) script URL from the Test tab here, if it does not work above -->
+        <!-- <script src="http://debug-software.intel.com/target/target-script-min.js#insertabiglongfunkynumberfromthexdkstesttab"></script> -->
+        <div class="upage" id="main">
+            <div class="upage-outer">
+                <div class="uib-header header-bg container-group inner-element uib_w_5" data-uib="layout/header" data-ver="0">
+                    <h2>Programa de Cadastro</h2>
+                    <div class="widget-container wrapping-col single-centered"></div>
+                    <div class="widget-container content-area horiz-area wrapping-col left"></div>
+                    <div class="widget-container content-area horiz-area wrapping-col right"></div>
+                </div>
+                <div class="upage-content ac0 content-area vertical-col left" id="page_63_28">
+
+                    <form id="form1" runat="server" method="GET">
+                        <center>
+                            <br>
+                          <h2>MÊS: <select name="mm" onchange="Redireciona(this)" id="mm">
+                                
+<script>if (params["mm"] === "1") {document.write("<option selected>1</option>");} else {document.write("<option>1</option>");}</script>     <script>if (params["mm"] === "2") {document.write("<option selected>2</option>");} else {document.write("<option>2</option>");}</script>         <script>if (params["mm"] === "3") {document.write("<option selected>3</option>");} else {document.write("<option>3</option>");}</script>       <script>if (params["mm"] === "4") {document.write("<option selected>4</option>");} else {document.write("<option>4</option>");}</script>         <script>if (params["mm"] === "5") {document.write("<option selected>5</option>");} else {document.write("<option>5</option>");}</script>         <script>if (params["mm"] === "6") {document.write("<option selected>6</option>");} else {document.write("<option>6</option>");}</script>         <script>if (params["mm"] === "7") {document.write("<option selected>7</option>");} else {document.write("<option>7</option>");}</script>         <script>if (params["mm"] === "8") {document.write("<option selected>8</option>");} else {document.write("<option>8</option>");}</script>         <script>if (params["mm"] === "9") {document.write("<option selected>9</option>");} else {document.write("<option>9</option>");}</script>         <script>if (params["mm"] === "10") {document.write("<option selected>10</option>");} else {document.write("<option>10</option>");}</script>     <script>if (params["mm"] === "11") {document.write("<option selected>11</option>");} else {document.write("<option>11</option>");}</script>     <script>if (params["mm"] === "12") {document.write("<option selected>12</option>");} else {document.write("<option>12</option>");}</script>                          
+
+                              </select> - <a href="dados.html">MENU PRINCIPAL</a> </h2>
+                            
+                        </center>
+                        <hr>
+                        <div align="center">
+                            <fieldset style="width:90%;height:100%;">
+                                <table border="0" cellpadding="3" cellspacing="3">
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="2">
+                                                <div id="contentArea" align="left"></div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </fieldset>
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+	    
+        <script type="text/javascript" src="cordova.js"></script>
+    </body>
+</html>
